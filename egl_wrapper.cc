@@ -139,7 +139,6 @@ EGLint ozone_egl_setup(EGLint x, EGLint y, EGLint width, EGLint height )
     	LOG(ERROR) << "No matching configs found";
         return OZONE_EGL_FAILURE;
     }
-    PrintConfigs(g_EglDisplay, configs, matchingConfigs);
 
 
     g_EglSurface = eglCreateWindowSurface(g_EglDisplay, configs[0], 0, NULL);
