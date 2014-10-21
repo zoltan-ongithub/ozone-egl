@@ -128,7 +128,8 @@ EGLint ozone_egl_setup(EGLint x, EGLint y, EGLint width, EGLint height )
         return OZONE_EGL_FAILURE;
     }
 
-    if (!eglChooseConfig(g_EglDisplay, g_configAttribs, &configs[0], 10, &matchingConfigs))
+    if (!eglChooseConfig(g_EglDisplay, g_configAttribs, &configs[0],
+                         sizeof(configs)/sizeof(configs[0]), &matchingConfigs))
     {
     	LOG(ERROR) << "eglChooseConfig failed.";
         return OZONE_EGL_FAILURE;
