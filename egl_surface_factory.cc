@@ -18,9 +18,13 @@
  #define GL_BGRA_EXT 0x80E1
 #endif
 
+#include <fcntl.h>    /* For O_RDWR */
+#include <unistd.h>   /* For open(), creat() */
+#include <linux/fb.h>
+#include <sys/ioctl.h>
 
-#define OZONE_EGL_WINDOW_WIDTH 640
-#define OZONE_EGL_WINDOW_HEIGTH 480
+#define OZONE_EGL_WINDOW_WIDTH 1024
+#define OZONE_EGL_WINDOW_HEIGTH 768
 
 namespace ui {
 
@@ -128,13 +132,31 @@ SurfaceFactoryEgl::~SurfaceFactoryEgl()
     DestroySingleWindow(); 
 }
   
+EGLint g_width;
+EGLint g_height;
 bool SurfaceFactoryEgl::CreateSingleWindow()
 {
+  struct fb_var_screeninfo fb_var;
+
+  int fb_fd =  open("/dev/fb0", O_RDWR);
+
   if(init_)
   {
      return true;
   }
-  if(!ozone_egl_setup(0, 0, OZONE_EGL_WINDOW_WIDTH, OZONE_EGL_WINDOW_HEIGTH))
+
+  if (ioctl(fb_fd, FBIOGET_VSCREENINFO, &fb_var)) {
+        LOG(FATAL) << "failed to get fb var info errno: " << errno;
+        g_width = 640;
+	g_height = 480;
+  } else {
+    g_width = fb_var.xres;
+    g_height = fb_var.yres;
+  }
+
+ close(fb_fd);
+
+ if(!ozone_egl_setup(0, 0, g_width, g_height))
   {
       LOG(FATAL) << "CreateSingleWindow";
       return false;
