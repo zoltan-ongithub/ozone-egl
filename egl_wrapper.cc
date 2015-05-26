@@ -79,7 +79,7 @@ NativeWindow ozone_egl_nativeCreateWindow(const char *title, int width, int heig
     return (NativeWindow) fbwin;
 }
 
-void ozone_egl_nativeDestroyWindow(NativeWindow window)
+static void ozone_egl_nativeDestroyWindow(NativeWindowType window)
 {
     if(window !=0 )
     {
