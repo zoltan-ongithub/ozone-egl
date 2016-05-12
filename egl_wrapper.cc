@@ -49,7 +49,7 @@ static EGLDisplay g_EglDisplay = NULL;
 static EGLContext g_EglContext = NULL;
 static EGLSurface g_EglSurface = NULL;
 
-static NativeDisplayType g_NativeDisplay= NULL;
+static NativeDisplayType g_NativeDisplay= EGL_DEFAULT_DISPLAY;
 static NativeWindowType g_NativeWindow;
 
 static int g_WindowWidth=0;
